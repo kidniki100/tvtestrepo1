@@ -1,0 +1,48 @@
+<aura:component implements="flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes" access="global" controller="CreditorTableCtrl" >
+    <aura:attribute name="data" type="Object"/>
+    <aura:attribute name="draftValues" type="Object" default="[]"/>
+    <aura:attribute name="existingIds" type="Object" default="[]"/>
+    <aura:attribute name="selectedData" type="Object"/>
+    <aura:attribute name="columns" type="List"/>
+    <aura:attribute name="selectedRowsCount" type="Integer" default="0"/>
+    <aura:attribute name="totalRowCount" type="Integer" default="0"/>
+    <aura:attribute name="totalBalance" type="currency" default="0"/>
+
+    <!-- handlers-->
+    <aura:handler name="init" value="{! this }" action="{! c.init }"/>
+    
+    <lightning:card  title="Bank INfo">
+        <div style="height: 400px">
+            <lightning:datatable
+                                 columns="{! v.columns }"
+                                 data="{! v.data }"
+                                 keyField="id"
+                                 errors="{! v.errors }"
+                                 draftValues="{! v.draftValues }"
+                                 onrowselection="{! c.updateSelectedText }"
+                                 onsave="{! c.handleSaveEdition }"/>
+        </div>
+        <br/>
+        <div>
+            <div class="slds-clearfix total_bar">
+                <div class="slds-float_left">
+                    <b>Total :</b>
+                </div>
+                <div class="slds-float_right">
+                    <b><lightning:formattedNumber value="{!v.totalBalance}" style="currency" currencyCode="USD"/> </b>
+                </div>
+            </div><br/><br/>
+            <div class="other_container">
+                <lightning:button label="Add Debt" title="Neutral action" onclick="{! c.addClick }"/>
+                <lightning:button label="Remove" title="Neutral action" onclick="{! c.removeClick }"/>
+                <br/><br/>
+                <p class="font_settings">
+                    Selected Row Count : {!v.selectedRowsCount} 
+                    &nbsp;
+                    &nbsp;
+                    Total Row Count :  {!v.totalRowCount} 
+                </p>
+            </div>
+        </div>
+    </lightning:card>
+</aura:component>
